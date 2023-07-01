@@ -1,6 +1,6 @@
 # Chess Against GPT
 
-# [Click here to play!](https://seantalley.github.io/chess.html)
+##[Click here to play!](https://seantalley.github.io/chess.html)
 
 ChatGPT built this chess game using chess.js and chessboard.js to make API calls to itself to recommend moves. 
 
