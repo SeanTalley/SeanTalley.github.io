@@ -76,7 +76,7 @@ async function aiMove(invalidString = "") {
   if(invalidString != "")
     prompt_text += `\n\n${invalidString}\n\nThe previous move attempt was invalid due to no piece being present at the specified start square or the move was not legal. Please suggest a new move:`;
 
-  document.getElementById('ai-thoughts').textContent = "AI Prompt: " + prompt_text;
+  document.getElementById('ai-thoughts').textContent = "Thinking...";
   console.log(prompt_text);
   
   const data = {
@@ -97,27 +97,34 @@ async function aiMove(invalidString = "") {
   const jsonResponse = await response.json();
   let res = jsonResponse.choices[0].message.content.trim();
   
-  let parts = res.split('Reasoning: ');
-  let move = parts[0].trim();
-  let reasoning = parts[1].trim();
-
-  console.log("AI Response: " + move);
-  move = move.replace(/\n/g, '');  // Remove newline characters
-  move = move.replace(/['"]/g, '');  // Remove both single and double quotes
-  move = move.replace(/\./g, '');  // Remove period
-  var moveResult = null;
   try {
-    moveResult = game.move(move);
+    let parts = res.split('Reasoning: ');
+    let move = parts[0].trim();
+	let reasoning = parts[1]?.trim() ?? "No Explanation Given";
+	
+    console.log("AI Response: " + move);
+    move = move.replace(/\n/g, '');  // Remove newline characters
+    move = move.replace(/['"]/g, '');  // Remove both single and double quotes
+    move = move.replace(/\./g, '');  // Remove period
+    var moveResult = null;
+    try {
+      moveResult = game.move(move);
+    }
+    catch(e) {}
+    if (moveResult === null) {
+      // Move was not legal, handle as appropriate for your application
+      document.getElementById('ai-thoughts').textContent = `Invalid move: ${move}. Retrying...`;
+	  aiMove(move);
+	  return;
+    } else {
+      document.getElementById('ai-thoughts').textContent = "AI Thoughts: " + reasoning;
+      board.position(game.fen());  // Update the board to the new position
+    }
   }
-  catch(e) {}
-
-  if (moveResult === null) {
-    // Move was not legal, handle as appropriate for your application
-    document.getElementById('ai-thoughts').textContent = `Invalid move: ${move}. Retrying...`;
-    return aiMove(move);
-  } else {
-    document.getElementById('ai-thoughts').textContent = "AI Thoughts: " + reasoning;
-    board.position(game.fen());  // Update the board to the new position
+  catch(e) {
+    console.log("Invalid Response");
+	aiMove(res + " is invalid. Please try again.");
+	return;
   }
 }
 
