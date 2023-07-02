@@ -93,11 +93,11 @@ async function aiMove(invalidString = "") {
     body: JSON.stringify(data)
   };
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', options);
-  const jsonResponse = await response.json();
-  let res = jsonResponse.choices[0].message.content.trim();
-  
   try {
+	const response = await fetch('https://api.openai.com/v1/chat/completions', options);
+    const jsonResponse = await response.json();
+    let res = jsonResponse.choices[0].message.content.trim();
+	document.getElementById('ai-thoughts').textContent = "Parsing response... " + res;
     let parts = res.split('Reasoning: ');
     let move = parts[0].trim();
 	let reasoning = parts[1]?.trim() ?? "No Explanation Given";
