@@ -36,12 +36,12 @@ function onDrop (source, target) {
 }
 
 async function aiMove(invalidString = "") {
-  const FEN = game.fen();
-  const validMoves = game.moves().join(", ");
-  const apiKey = document.getElementById('api-key').value;
+  let FEN = game.fen();
+  let validMoves = game.moves().join(", ");
+  let apiKey = document.getElementById('api-key').value;
   let promptText = document.getElementById('prompt-text').value;
-  const squares = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  const allPieces = ['1', '2', '3', '4', '5', '6', '7', '8'];
+  let squares = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  let allPieces = ['1', '2', '3', '4', '5', '6', '7', '8'];
   let piecesUnderAttack = [];
   let piecesYouCanAttack = [];
   
@@ -94,8 +94,11 @@ async function aiMove(invalidString = "") {
   };
 
   try {
-	const response = await fetch('https://api.openai.com/v1/chat/completions', options);
-    const jsonResponse = await response.json();
+	let response = await fetch('https://api.openai.com/v1/chat/completions', options);
+	if (!response.ok) {
+	  document.getElementById('ai-thoughts').textContent = "Fetch Error - Please try Refreshing";
+	}
+    let jsonResponse = await response.json();
     let res = jsonResponse.choices[0].message.content.trim();
 	document.getElementById('ai-thoughts').textContent = "Parsing response... " + res;
     let parts = res.split('Reasoning: ');
@@ -116,7 +119,7 @@ async function aiMove(invalidString = "") {
     if (moveResult === null) {
       // Move was not legal, handle as appropriate for your application
       document.getElementById('ai-thoughts').textContent = `Invalid move: ${move}. Retrying...`;
-	  aiMove(move);
+	  await aiMove(move);
 	  return;
     } else {
       document.getElementById('ai-thoughts').textContent = "AI Thoughts: " + reasoning;
@@ -125,7 +128,7 @@ async function aiMove(invalidString = "") {
   }
   catch(e) {
     console.log("Invalid Response");
-	aiMove(res + " is invalid. Please try again.");
+	await aiMove(res + " is invalid. Please try again.");
 	return;
   }
 }
