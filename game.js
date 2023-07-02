@@ -74,7 +74,7 @@ async function aiMove(invalidString = "") {
   //let prompt_text = `You are an AI assistant trained to suggest the next move in a game of chess. You are currently suggesting a move for the black pieces. The current board state in FEN (Forsyth-Edwards Notation) is \"${FEN}\". Your objective is to help achieve a winning position, while adhering to the rules of chess. The following pieces are currently under attack: ${}. Please provide your move in algebraic notation (e.g., "e2e4").\n\nYour suggested move is:`;
   
   if(invalidString != "")
-    prompt_text += `\n\n${invalidString}\n\nThe previous move attempt was invalid due to no piece being present at the specified start square or the move was not legal. Please suggest a new move:`;
+    prompt_text += `\n\n${invalidString}\n\nThe previous move attempt listed above was invalid. You must choose from this list: ` + validMoves;
 
   document.getElementById('ai-thoughts').textContent = "Thinking...";
   console.log(prompt_text);
@@ -102,10 +102,12 @@ async function aiMove(invalidString = "") {
     let move = parts[0].trim();
 	let reasoning = parts[1]?.trim() ?? "No Explanation Given";
 	
-    console.log("AI Response: " + move);
-    move = move.replace(/\n/g, '');  // Remove newline characters
-    move = move.replace(/['"]/g, '');  // Remove both single and double quotes
-    move = move.replace(/\./g, '');  // Remove period
+    console.log("AI Response: " + res);
+    move = move.replace(/\n/g, '');      // Remove newline characters
+    move = move.replace(/['"]/g, '');    // Remove both single and double quotes
+    move = move.replace(/\./g, '');      // Remove period
+    move = move.replace(/\[/g, '');      // Remove opening square bracket
+    move = move.replace(/\]/g, '');      // Remove closing square bracket
     var moveResult = null;
     try {
       moveResult = game.move(move);

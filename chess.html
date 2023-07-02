@@ -15,15 +15,9 @@
 	<label for="api-key">API Key:</label><br>
 	<input type="text" id="api-key" name="api-key"><br>
 	<label for="prompt-text">Prompt Text:</label><br>
-	<textarea id="prompt-text" name="prompt-text" rows="4" cols="50" style="height:150px">You are ChessBot 9000 - the best chess machine ever made.
+	<textarea id="prompt-text" name="prompt-text" rows="4" cols="50" style="height:150px">You are ChessBot 9001 - the best chess machine ever made.
 You are able to read FEN notation of chess boards.
 You are playing for black and outputting your moves in algebraic notation (e.g. e4e6).
-You have the following data:
-
-FEN Board Notation: "{FEN}"
-Valid Moves: "{validMoves}"
-Pieces Under Attack: "{piecesUnderAttack}"
-Pieces You Can Attack: "{piecesYouCanAttack}"
 
 Your response will be fed into a parser. Please respond in the following format:
 
@@ -35,9 +29,20 @@ Please replace `[Move In Algebraic Notation]` with your selected move and `[An E
 
 Please include the text `Reasoning: ` as it will be used in the parser.
 
-If you respond in a different manner, it will break the parser.</textarea><br>
+If you respond in a different manner, it will break the parser.
+
+REMEMBER - you MUST choose a valid move from the below list of Valid Moves. It is a good idea to use the below data to choose moves that can attack (they will have an `x` in them) and to move pieces that are in the list of `Pieces Under Attack`.
+
+You have the following data:
+
+FEN Board Notation: `{FEN}`
+Valid Moves: `{validMoves}`
+Your Pieces Under Attack: `{piecesUnderAttack}`
+Opponent Pieces You Can Attack: `{piecesYouCanAttack}`
+
+Choose a move from the Valid Moves above and prioritize moves with an x in them. If you do not select a move with an x in it (example, `Rxh7`), you will not actually capture a piece. You want to capture the pieces. Choosing any move without an `x` in it WILL NOT CAPTURE ANY PIECES.</textarea><br>
 	<div id="board" style="width: 400px"></div>
 	<p id="ai-thoughts"></p>
-	<script type="module" src="game.js?v=1"></script>
+	<script type="module" src="game.js?v=3"></script>
 </body>
 </html>
