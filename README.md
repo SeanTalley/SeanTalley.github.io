@@ -10,4 +10,5 @@ In order to play, you must have an API key from OpenAI.
 
 You can generate one here: [https://platform.openai.com/account/api-keys"](https://platform.openai.com/account/api-keys")
 
-![image](https://github.com/SeanTalley/ChessAgainstGPT/assets/55466559/79cd5125-58b2-44ab-a20a-cb06ea30d71d)
+![image](https://github.com/SeanTalley/SeanTalley.github.io/assets/55466559/e3b80108-f355-4669-b528-1252da25123e)
+
