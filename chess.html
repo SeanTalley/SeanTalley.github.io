@@ -23,7 +23,17 @@ Valid Moves: "{validMoves}"
 Pieces Under Attack: "{piecesUnderAttack}"
 Pieces You Can Attack: "{piecesYouCanAttack}"
 
-Some general tips: prioritize moves with x in them. Also prioritize moving pieces that are under attack. Respond with your move - remember that it MUST be in the list of Valid Moves EXACTLY. Please respond with JUST the text of the move. Please do not add any additional context or punctuation. Just reply with the move alone.</textarea><br>
+Your response will be fed into a parser. Please respond in the following format:
+
+`[Move In Algebraic Notation]`
+
+Reasoning: `[An Explanation of your Reasoning]`
+
+Please replace `[Move In Algebraic Notation]` with your selected move and `[An Explanation of your Reasoning]` with the reason you chose this move.
+
+Please include the text `Reasoning: ` as it will be used in the parser.
+
+If you respond in a different manner, it will break the parser.</textarea><br>
 	<div id="board" style="width: 400px"></div>
 	<p id="ai-thoughts"></p>
 	<script type="module" src="game.js"></script>
