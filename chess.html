@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -7,15 +8,164 @@
   <meta http-equiv="Expires" content="0" />
   <!-- Prevent iOS from interpreting certain things as telephone numbers -->
   <meta name="format-detection" content="telephone=no">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" integrity="sha512-TU/clvRaSqKB43MX6dvJPEWV8tEGDTbmT4mdxTs6DSYsBY9zKmiw4Qeykp0nS10ndH14HRNG2VWN+IjiMfA17Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js" integrity="sha512-WfASs5HtTgTL/eZsLaOftSN9wMQl7WZGlU5UiKx/yxTViMfGh9whWRwKAC27qH8VtZJqSMqDdbq2uUb1tY3jvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css"
+    integrity="sha512-TU/clvRaSqKB43MX6dvJPEWV8tEGDTbmT4mdxTs6DSYsBY9zKmiw4Qeykp0nS10ndH14HRNG2VWN+IjiMfA17Q=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"
+    integrity="sha512-WfASs5HtTgTL/eZsLaOftSN9wMQl7WZGlU5UiKx/yxTViMfGh9whWRwKAC27qH8VtZJqSMqDdbq2uUb1tY3jvQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <!-- Optional Bootstrap JS (include it if you need the Bootstrap JS plugins) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #2d2d2d;
+      color: #fff;
+      /* White text color */
+      height: 100vh;
+      /* full viewport height */
+      display: flex;
+      /* use flexbox to layout children */
+      flex-direction: column;
+      /* stack children vertically */
+      overflow: hidden;
+      /* prevent overflow */
+    }
+
+    .form-control,
+    .rounded-border {
+      border-radius: 2px;
+      background-color: #3c3c3c;
+      color: #fff;
+    }
+
+    .shadow {
+      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .chat-window {
+      height: 125px;
+      overflow-y: auto;
+      border: 1px solid #ccc;
+      scrollbar-width: thin;
+      /* for Firefox */
+      scrollbar-color: #888 #444;
+      padding-bottom:5px;
+      /* for Firefox */
+    }
+
+    .chat-message {
+      border-radius: 5px;
+      background: linear-gradient(to right, #155515, #00a500);
+      display: inline-block;
+      color: #fff;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      padding: 10px;
+    }
+
+    .system-message {
+      border-radius: 5px;
+      /*background-color: #34C759;*/
+      /* Darker green gradient background */
+      background: linear-gradient(to right, #8b4c22, #861b00);
+      /* Make the bubble only as wide as the text, plus some padding */
+      display: inline-block;
+      /* green color */
+      color: #fff;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+      display: inline-block;
+      padding: 10px;
+    }
+
+    /* Full-width message container */
+    .message-container {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
+    
+    #board-container {
+      /*max-height: 600px; /* adjust as needed */
+      /*max-width: 600px;*/
+      width:100%;
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      background-color: transparent;
+      box-shadow: none !important;
+      /*margin: 0 auto;*/
+    }
+
+    #board {
+      /*width: 100%;
+      height: 100%;*/
+    }
+
+    /* Custom scrollbar styles for Chrome, Edge, and Safari */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #444;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 2px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .rounded-border {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Change label font */
+    label {
+      font-family: 'Raleway', sans-serif;
+    }
+
+    /* Set the same background and text color for inputs and textareas when selected */
+    .form-control:focus {
+      background-color: #3c3c3c;
+      color: #fff;
+    }
+  </style>
 </head>
+
 <body>
-	<label for="api-key">API Key:</label><br>
-	<input type="text" id="api-key" name="api-key"><br>
-	<label for="prompt-text">Prompt Text:</label><br>
-	<textarea id="prompt-text" name="prompt-text" rows="4" cols="50" style="height:150px">You are ChessBot 9001 - the best chess machine ever made.
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-6 mt-2">
+        <label for="api-key" class="text-nowrap">API Key:</label>
+        <input type="text" id="api-key" name="api-key" class="form-control rounded-border shadow" style="max-width:400px">
+      </div>
+      <div class="col-6 mt-2">
+        <!-- Wrap the input and label inside a div for the Bootstrap Collapse component -->
+        <div>
+          <a class="btn btn-secondary text-white" data-bs-toggle="collapse" href="#collapsePrompt" role="button"
+            aria-expanded="false" aria-controls="collapsePrompt" style="position:fixed;top:34px;left:50%;transform:translateX(-50%);z-index:2;">
+            <label for="prompt-text" style="cursor:pointer;" class="text-nowrap">Prompt Text:</label>
+          </a>
+          <div class="collapse" id="collapsePrompt" style="position:fixed;top:75px;left:50%;transform:translateX(-50%);z-index:2;">
+            <textarea id="prompt-text" class="form-control rounded-border shadow mt-2" rows="4" style="height:300px;resize:both;width:600px;right:0px;">
+You are ChessBot 9001 - the best chess machine ever made.
 You are able to read FEN notation of chess boards.
 You are playing for black and outputting your moves in algebraic notation (e.g. e4e6).
 
@@ -42,9 +192,26 @@ Opponent Pieces You Can Attack: `{piecesYouCanAttack}`
 
 Remember that Your Pieces Under Attack are your own pieces that the opponent can capture if you do not do something about the situation. Opponent Pieces You Can Attack are pieces that YOU can capture (and you likely should).
 
-Choose a move from the Valid Moves above and prioritize moves with an x in them. If you do not select a move with an x in it (example, `Rxh7`), you will not actually capture a piece. You want to capture the pieces. Choosing any move without an `x` in it WILL NOT CAPTURE ANY PIECES.</textarea><br>
-	<div id="board" style="width: 400px"></div>
-	<p id="ai-thoughts"></p>
-	<script type="module" src="game.js?v=4"></script>
+Choose a move from the Valid Moves above and prioritize moves with an x in them. If you do not select a move with an x in it (example, `Rxh7`), you will not actually capture a piece. You want to capture the pieces. Choosing any move without an `x` in it WILL NOT CAPTURE ANY PIECES.
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 mt-2">
+        <div id="board-container" class="rounded-border shadow">
+          <div id="board"></div>
+        </div>
+      </div>
+      <div class="col-12 mt-2" style="position:fixed;bottom:10px;height:155px;">
+        <div id="ai-thoughts" class="rounded-border shadow p-3">
+          <div class="chat-window rounded-border shadow" id="chat-window">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="game.js?v=5"></script>
 </body>
+
 </html>
